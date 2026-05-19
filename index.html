@@ -42,7 +42,6 @@
 <body>
 
     <div class="video-container">
-        <!-- Атрибут playsinline критически важен для iOS, чтобы видео не разворачивалось на весь экран native-плеером -->
         <video id="player" controls playsinline controlsList="nodownload">
             <source id="video-source" src="" type="video/mp4">
             Ваш браузер не поддерживает просмотр видео.
@@ -52,21 +51,19 @@
     <div class="instruction-text" id="video-title">Загрузка инструкции...</div>
 
     <script>
-        // Функция для чтения параметров из URL-ссылки
         function getUrlParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
 
-        // Получаем имя файла из ссылки. Пример: ://site.com
         const videoName = getUrlParam('video');
         const player = document.getElementById('player');
         const source = document.getElementById('video-source');
         const title = document.getElementById('video-title');
 
         if (videoName) {
-            // Путь к папке, где лежат ваши видеофайлы MP4
-            source.src = "videos/" + videoName + ".mp4";
+            // Видео берется прямо из корневой папки, без videos/
+            source.src = videoName + ".mp4";
             title.textContent = "Инструкция: " + videoName.replace(/-/g, ' ');
             player.load();
         } else {
