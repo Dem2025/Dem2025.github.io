@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Видеоинструкция</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        video {
+            width: 100%;
+            display: block;
+            background-color: #000;
+        }
+        .instruction-text {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 16px;
+            color: #ccc;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <!-- Атрибут playsinline критически важен для iOS, чтобы видео не разворачивалось на весь экран native-плеером -->
+        <video id="player" controls playsinline controlsList="nodownload">
+            <source id="video-source" src="" type="video/mp4">
+            Ваш браузер не поддерживает просмотр видео.
+        </video>
+    </div>
+    
+    <div class="instruction-text" id="video-title">Загрузка инструкции...</div>
+
+    <script>
+        // Функция для чтения параметров из URL-ссылки
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Получаем имя файла из ссылки. Пример: ://site.com
+        const videoName = getUrlParam('video');
+        const player = document.getElementById('player');
+        const source = document.getElementById('video-source');
+        const title = document.getElementById('video-title');
+
+        if (videoName) {
+            // Путь к папке, где лежат ваши видеофайлы MP4
+            source.src = "videos/" + videoName + ".mp4";
+            title.textContent = "Инструкция: " + videoName.replace(/-/g, ' ');
+            player.load();
+        } else {
+            title.textContent = "Ошибка: видео не найдено.";
+        }
+    </script>
+
+</body>
+</html>
